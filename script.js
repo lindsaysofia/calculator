@@ -1,14 +1,18 @@
 const operations = {
-  add: function (num1, num2) {
-    return num1 + num2;
+  add: function (firstNumber, secondNumber) {
+    return firstNumber + secondNumber;
   },
-  subtract: function (num1, num2) {
-    return num1 - num2;
+  subtract: function (firstNumber, secondNumber) {
+    return firstNumber - secondNumber;
   },
-  multiply: function (num1, num2) {
-    return num1 * num2;
+  multiply: function (firstNumber, secondNumber) {
+    return firstNumber * secondNumber;
   },
-  divide: function (num1, num2) {
-    return num1 / num2;
+  divide: function (firstNumber, secondNumber) {
+    return firstNumber / secondNumber;
   }
 };
+
+function operate(operator, firstNumber, secondNumber) {
+  return operations[operator](firstNumber, secondNumber);
+}
