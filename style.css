@@ -74,7 +74,3 @@ button:focus,
   background-color: var(--btn-clear-color);
   grid-column: 1 / span 4;
 }
-
-#clear:focus {
-  border: var(--grid-gap) solid #EE4B2B;
-}

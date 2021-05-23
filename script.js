@@ -1,6 +1,7 @@
 const displayText = document.querySelector('.display-text');
 const buttonsContainer = document.querySelector('.buttons-container');
 const divByZeroMessage = `STOP DIVIDING BY ZERO YOU KNOW THAT'S NOT RIGHT`;
+const errorMessage = 'ERROR';
 let calculated = [];
 
 const operations = {
@@ -50,7 +51,7 @@ function handleClick(e) {
       handleOperator(buttonId);
       break;
     case 'decimal':
-      return;
+      handleDecimal(buttonId);
       break;
     default:
       handleOperand(buttonId);
@@ -65,7 +66,14 @@ function handleOperand(buttonId) {
       calculated.push(buttonId);
       break;
     case 1:
-      calculated[0] = calculated[0] + buttonId;
+      // if there is a decimal, but there is already a number after it
+      if (calculated[0].includes('.') && (calculated[0][calculated[0].length - 1] !== '.')) {
+        return;
+      } 
+      // if there is a decimal, but no number after it yet or any other case
+      else {
+        calculated[0] = calculated[0] + buttonId;
+      }
       break;
     case 2:
       if (calculated[0] === 'equals') {
@@ -75,7 +83,14 @@ function handleOperand(buttonId) {
       }
       break;
     case 3:
-      calculated[2] = calculated[2] + buttonId;
+      // if there is a decimal, but there is already a number after it
+      if (calculated[2].includes('.') && (calculated[2][calculated[2].length - 1] !== '.')) {
+        return;
+      } 
+      // if there is a decimal, but no number after it yet or any other case
+      else {
+        calculated[2] = calculated[2] + buttonId;
+      }
       break;
   }
 }
@@ -111,9 +126,11 @@ function handleEquals(buttonId) {
       return;
       break;
     case 3:
-      let result = operate(calculated[1], +calculated[0], +calculated[2]);
+      let result = (operate(calculated[1], +calculated[0], +calculated[2])).toFixed(1);
       if (result === divByZeroMessage) {
         calculated = [result];
+      } else if (result === 'NaN') {
+        calculated = [errorMessage];
       } else if (buttonId === 'equals') {
         calculated = [buttonId, result];
       } else {
@@ -121,6 +138,35 @@ function handleEquals(buttonId) {
       }
       break;
   }
+}
+
+function handleDecimal(buttonId) {
+  switch(calculated.length) {
+    case 0:
+      calculated.push('.');
+      break;
+    case 1:
+      if (calculated[0].includes('.')) {
+        return;
+      } else {
+        calculated[0] = calculated[0] + '.';
+      }
+      break;
+    case 2:
+      if (calculated[0] === 'equals') {
+        calculated = ['.'];
+      } else {
+        calculated.push('.');
+      }
+      break;
+    case 3:
+      if (calculated[2].includes('.')) {
+        return;
+      } else {
+        calculated[2] = calculated[2] + '.';
+      }
+      break;
+    }
 }
 
 function operate(operator, firstNumber, secondNumber) {
@@ -135,7 +181,7 @@ function updateDisplay() {
   textToDisplay = textToDisplay.replace(/divide/, ' / ');
   textToDisplay = textToDisplay.replace(/equals/, ' = ');
   displayText.textContent = textToDisplay;
-  if (calculated.length === 1 && calculated[0] === divByZeroMessage) {
+  if (calculated.length === 1 && (calculated[0] === divByZeroMessage || calculated[0] === errorMessage)) {
     calculated = [];
   }
 }
