@@ -98,7 +98,7 @@ function handleOperator(buttonId) {
       }
       break;
     case 3:
-      handleEquals();
+      handleEquals(buttonId);
       break;
   }
 }
@@ -114,8 +114,10 @@ function handleEquals(buttonId) {
       let result = operate(calculated[1], +calculated[0], +calculated[2]);
       if (result === divByZeroMessage) {
         calculated = [result];
-      } else {
+      } else if (buttonId === 'equals') {
         calculated = [buttonId, result];
+      } else {
+        calculated = [result, buttonId];
       }
       break;
   }
