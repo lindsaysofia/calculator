@@ -6,6 +6,7 @@
   --btn-clear-color: #282828;
   --display-color: #FFF;
   --grid-gap: 2px;
+  --font-size: 1.5em;
 }
 
 body {
@@ -37,20 +38,21 @@ body {
 }
 
 .display-text {
-  height: 25%;
+  height: 100%;
   width: 100%;
   background-color: var(--display-color);
   margin: 0;
   text-align: right;
   padding: 2em;
   box-sizing: border-box;
-  font-size: 1.5em;
+  font-size: var(--font-size);
   font-family: 'Montserrat', sans-serif;
 }
 
 .buttons-container {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(5, 1fr);
   grid-gap: var(--grid-gap);
 }
 
@@ -59,12 +61,13 @@ button {
   outline: none;
   border: none;
   color: var(--display-color);
-  font-size: 1.5em;
+  font-size: var(--font-size);
   font-family: 'Montserrat', sans-serif;
 }
 
+button:focus,
 .highlight {
-  border: 2px solid #99CCFF;
+  border: var(--grid-gap) solid #99CCFF;
 }
 
 #clear {

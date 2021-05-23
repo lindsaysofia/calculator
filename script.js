@@ -1,6 +1,7 @@
 const displayText = document.querySelector('.display-text');
 const buttonsContainer = document.querySelector('.buttons-container');
-let displayValue;
+const divByZeroMessage = `STOP DIVIDING BY ZERO YOU KNOW THAT'S NOT RIGHT`;
+let calculated = [];
 
 const operations = {
   add: function (firstNumber, secondNumber) {
@@ -13,7 +14,7 @@ const operations = {
     return firstNumber * secondNumber;
   },
   divide: function (firstNumber, secondNumber) {
-    return firstNumber / secondNumber;
+    return (secondNumber === 0) ? divByZeroMessage : firstNumber / secondNumber;
   }
 };
 
@@ -35,10 +36,104 @@ buttons.forEach(button => {
 
 function handleClick(e) {
   let buttonId = e.target.id;
-  let buttonDisplay = e.target.textContent;
-  displayText.textContent = buttonDisplay;
+  switch(buttonId) {
+    case 'clear': 
+      calculated = [];
+      break;
+    case 'equals':
+      handleEquals(buttonId);
+      break;
+    case 'add':
+    case 'subtract':
+    case 'multiply':
+    case 'divide':
+      handleOperator(buttonId);
+      break;
+    case 'decimal':
+      return;
+      break;
+    default:
+      handleOperand(buttonId);
+  }
+  updateDisplay();
+}
+  
+
+function handleOperand(buttonId) {
+  switch(calculated.length) {
+    case 0:
+      calculated.push(buttonId);
+      break;
+    case 1:
+      calculated[0] = calculated[0] + buttonId;
+      break;
+    case 2:
+      if (calculated[0] === 'equals') {
+        calculated = [buttonId];
+      } else {
+        calculated.push(buttonId);
+      }
+      break;
+    case 3:
+      calculated[2] = calculated[2] + buttonId;
+      break;
+  }
+}
+
+function handleOperator(buttonId) {
+  switch(calculated.length) {
+    case 0:
+      return;
+      break;
+    case 1:
+      calculated.push(buttonId);
+      break;
+    case 2:
+      if (calculated[0] === 'equals') {
+        calculated.shift();
+        calculated.push(buttonId);
+      } else {
+        calculated.pop();
+        calculated.push(buttonId);
+      }
+      break;
+    case 3:
+      handleEquals();
+      break;
+  }
+}
+
+function handleEquals(buttonId) {
+  switch(calculated.length) {
+    case 0:
+    case 1:
+    case 2:
+      return;
+      break;
+    case 3:
+      let result = operate(calculated[1], +calculated[0], +calculated[2]);
+      if (result === divByZeroMessage) {
+        calculated = [result];
+      } else {
+        calculated = [buttonId, result];
+      }
+      break;
+  }
 }
 
 function operate(operator, firstNumber, secondNumber) {
   return operations[operator](firstNumber, secondNumber);
+}
+
+function updateDisplay() {
+  let textToDisplay = (calculated.length === 0) ? '0' : calculated.join('');
+  textToDisplay = textToDisplay.replace(/add/, ' + ');
+  textToDisplay = textToDisplay.replace(/subtract/, ' - ');
+  textToDisplay = textToDisplay.replace(/multiply/, ' * ');
+  textToDisplay = textToDisplay.replace(/divide/, ' / ');
+  textToDisplay = textToDisplay.replace(/equals/, ' = ');
+  displayText.textContent = textToDisplay;
+  if (calculated.length === 1 && calculated[0] === divByZeroMessage) {
+    calculated = [];
+  }
 }
