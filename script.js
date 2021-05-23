@@ -1,4 +1,6 @@
+const displayText = document.querySelector('.display-text');
 const buttonsContainer = document.querySelector('.buttons-container');
+let displayValue;
 
 const operations = {
   add: function (firstNumber, secondNumber) {
@@ -32,7 +34,9 @@ buttons.forEach(button => {
 });
 
 function handleClick(e) {
-  console.log(typeof e.target.id);
+  let buttonId = e.target.id;
+  let buttonDisplay = e.target.textContent;
+  displayText.textContent = buttonDisplay;
 }
 
 function operate(operator, firstNumber, secondNumber) {
