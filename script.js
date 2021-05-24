@@ -126,15 +126,16 @@ function handleEquals(buttonId) {
       return;
       break;
     case 3:
-      let result = (operate(calculated[1], +calculated[0], +calculated[2])).toFixed(1);
-      if (result === divByZeroMessage) {
-        calculated = [result];
-      } else if (result === 'NaN') {
+      let result = operate(calculated[1], +calculated[0], +calculated[2]);
+      if (result !== 0 && !result) {
         calculated = [errorMessage];
+        return;
+      } else if (result === divByZeroMessage) {
+        calculated = [result];
       } else if (buttonId === 'equals') {
-        calculated = [buttonId, result];
+        calculated = [buttonId, result.toFixed(1)];
       } else {
-        calculated = [result, buttonId];
+        calculated = [result.toFixed(1), buttonId];
       }
       break;
   }
