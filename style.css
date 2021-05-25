@@ -65,8 +65,7 @@ button {
   font-family: 'Montserrat', sans-serif;
 }
 
-button:focus,
-.highlight {
+button:focus {
   border: var(--grid-gap) solid #99CCFF;
 }
 

@@ -18,6 +18,7 @@ const keyBoardCodes = {
   Period: 'decimal',
   Equal: 'equals',
   Add: 'add',
+  Minus: 'subtract',
   Slash: 'divide',
   Multiply: 'multiply',
   Delete: 'clear',
@@ -56,6 +57,7 @@ buttons.forEach(button => {
 });
 
 window.addEventListener('keyup', handleKeyUp);
+
 
 function handleClick(e) {
   let buttonId = e.target.id;
@@ -194,14 +196,14 @@ function handleDecimal(buttonId) {
 
 function handleKeyUp(e) {
   let key = e.code;
-  console.log(key);
   if (e.shiftKey && e.code === 'Equal') {
     key = 'Add';
   } else if (e.shiftKey && e.code === 'Digit8') {
     key = 'Multiply';
   }
   if (key in keyBoardCodes) {
-    handleClick({target: {id: keyBoardCodes[key]}});
+    let id = keyBoardCodes[key];
+    handleClick({target: {id}});
   }
 }
 
