@@ -4,6 +4,26 @@ const divByZeroMessage = `STOP DIVIDING BY ZERO YOU KNOW THAT'S NOT RIGHT`;
 const errorMessage = 'ERROR';
 let calculated = [];
 
+const keyBoardCodes = {
+  Digit0: '0',
+  Digit1: '1',
+  Digit2: '2',
+  Digit3: '3',
+  Digit4: '4',
+  Digit5: '5',
+  Digit6: '6',
+  Digit7: '7',
+  Digit8: '8',
+  Digit9: '9',
+  Period: 'decimal',
+  Equal: 'equals',
+  Add: 'add',
+  Slash: 'divide',
+  Multiply: 'multiply',
+  Delete: 'clear',
+  Enter: 'equals',
+};
+
 const operations = {
   add: function (firstNumber, secondNumber) {
     return firstNumber + secondNumber;
@@ -34,6 +54,8 @@ buttons.forEach(button => {
   newButtonElement.addEventListener('click', handleClick);
   buttonsContainer.appendChild(newButtonElement);
 });
+
+window.addEventListener('keyup', handleKeyUp);
 
 function handleClick(e) {
   let buttonId = e.target.id;
@@ -168,6 +190,19 @@ function handleDecimal(buttonId) {
       }
       break;
     }
+}
+
+function handleKeyUp(e) {
+  let key = e.code;
+  console.log(key);
+  if (e.shiftKey && e.code === 'Equal') {
+    key = 'Add';
+  } else if (e.shiftKey && e.code === 'Digit8') {
+    key = 'Multiply';
+  }
+  if (key in keyBoardCodes) {
+    handleClick({target: {id: keyBoardCodes[key]}});
+  }
 }
 
 function operate(operator, firstNumber, secondNumber) {
