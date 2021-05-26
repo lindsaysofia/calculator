@@ -84,14 +84,10 @@ function handleCalculatorInput(input) {
 }
 
 function handleClick(e) {
-  // make sure last element focused is no longer focused;
-  document.activeElement.blur();
   handleCalculatorInput(e.target.id);  
 }
 
 function handleKeyUp(e) {
-  // make sure last element focused is no longer focused
-  document.activeElement.blur();
   let key = e.code;
   if (e.shiftKey && e.code === 'Equal') {
     key = 'Add';
