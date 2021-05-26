@@ -69,7 +69,7 @@ button:focus {
   border: var(--grid-gap) solid #99CCFF;
 }
 
-#clear {
+#Delete {
   background-color: var(--btn-clear-color);
   grid-column: 1 / span 4;
 }
