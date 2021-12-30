@@ -1,3 +1,5 @@
+# Caulculator 
+
 As part of the curriculum for The Odin Project, I created a calculator using HTML, CSS, and Javascript.
 
 Some items to note:
